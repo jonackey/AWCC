@@ -9,17 +9,16 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
-          sudo apt-get update
+          sudo apt update
 
-          sudo apt-get install -y \
+          sudo apt install -y \
             build-essential \
             cmake \
             ninja-build \
@@ -37,21 +36,16 @@ jobs:
             libxkbcommon-dev \
             wayland-protocols \
             qt6-base-dev \
-            qt6-tools-dev \
-            qt6-svg-dev
+            qt6-tools-dev
 
       - name: Configure
-        run: |
-          cmake \
-            -B build \
-            -G Ninja
+        run: cmake -B build -G Ninja
 
       - name: Build
-        run: |
-          cmake --build build --parallel
+        run: cmake --build build --parallel
 
-      - name: Upload Build Artifacts
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: awcc-build
-          path: build/
+          name: awcc
+          path: build
